@@ -1,0 +1,100 @@
+<div class="container min-vh-100">
+  <div class="row">
+    <div class="col s12 m12">
+      <h1 class="center teal-text lighten-3">Register</h1>
+      <div class="content-container-with-padding z-depth-4">
+        <div class="row">
+          <form class="col s12" [formGroup]="registrationForm" (ngSubmit)="submit()">
+            <div class="row">
+              <div class="input-field col s6">
+                <input id="first_name" type="text" formControlName="firstName"
+                       [ngClass]="{'is-invalid':fc('firstName')?.errors
+                       && (fc('firstName')?.dirty || fc('firstName')?.touched)}">
+                <label for="first_name">First Name</label>
+                <div class="invalid-feedback" *ngIf="fc('firstName')?.errors">
+                  First name is required.
+                </div>
+              </div>
+              <div class="input-field col s6">
+                <input id="last_name" type="text"  formControlName="lastName" required="required"
+                       [ngClass]="{'is-invalid':fc('lastName')?.errors
+                       && (fc('lastName')?.dirty || fc('lastName')?.touched)}">
+                <label for="last_name">Last Name</label>
+                <div class="invalid-feedback" *ngIf="fc('lastName')?.errors">
+                  Last name is required.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12" formGroupName="userCredential">
+                <input id="email" name="email" type="email" formControlName="email" required="required"
+                       [ngClass]="{'is-invalid':ucfc('email')?.errors
+                    && (ucfc('email')?.dirty || ucfc('email')?.touched)}">
+                <label for="email">Email (used to sign in)</label>
+                <div class="invalid-feedback" *ngIf="ucfc('email')?.errors">
+                  Valid email address is required.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12" formGroupName="userCredential">
+                <input id="password" type="password"
+                       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" formControlName="password" required="required"
+                       [ngClass]="{'is-invalid':ucfc('password')?.errors
+                    && (ucfc('password')?.dirty || ucfc('password')?.touched)}"
+                       (ngModelChange)="updateConfirmPattern()"
+                >
+                <label for="password">Password</label>
+                <div class="invalid-feedback" *ngIf="ucfc('password')?.errors">
+                  Valid password is required: at least 8 characters (1 uppercase letter, 1 lowercase letter, 1 number).
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12" formGroupName="userCredential">
+                <input id="confirmedPassword" type="password" minlength="8" formControlName="confirmedPassword" required="required"
+                       [ngClass]="{'is-invalid':ucfc('confirmedPassword')?.errors
+                    && (ucfc('confirmedPassword')?.dirty || ucfc('confirmedPassword')?.touched)}">
+                <label for="confirmedPassword">Password (again)</label>
+                <div class="invalid-feedback" *ngIf="registrationForm.hasError('notEquivalent','userCredential.confirmedPassword')
+                    && (ucfc('confirmedPassword')?.dirty
+                    || ucfc('confirmedPassword')?.touched)">
+                  Passwords are not matching
+                </div>
+              </div>
+            </div>
+            <p class="red-text" *ngIf="error">Something went wrong</p>
+            <p class="red-text" *ngIf="emailExist">Registration failed: Email already exists</p>
+            <div class="row float-right">
+              <div *ngIf="sending"
+                   class="waves-effect waves-light yellow darken-2 btn-large black-text margin-button disabled">
+                <div class="row">
+                  <div class="col">Registering</div>
+                  <div class="col" style="padding-top: 10px;">
+                    <div class="preloader-wrapper small active right-align">
+                      <div class="spinner-layer spinner-green-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                          <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button *ngIf="!sending" class="waves-effect waves-light yellow darken-2 btn-large black-text" type="submit">
+                Register
+                <i class="material-icons right">send</i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

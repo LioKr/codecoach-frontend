@@ -1,0 +1,111 @@
+<div class=" container min-vh-100">
+
+    <div class="col s12 2">
+      <div class="content-container">
+        <section class="card-panel grey lighten-5">
+          <h5>Apply to become a coach</h5>
+          <div class="divider"></div>
+          <form [formGroup]="becomeCoachForm" (ngSubmit)="submit()">
+            <div class="row">
+              <div class="col s12">
+                <div class="input-field col s12">
+                  <textarea id="motivation" class="materialize-textarea" data-length="255" formControlName="motivation"
+                            [ngClass]="{'is-invalid':fc('motivation')?.errors
+                              && (fc('motivation')?.dirty
+                              || fc('motivation')?.touched)
+                              || hasSubmitFailed}"></textarea>
+                  <label for="motivation">Motivation</label>
+                  <div class="invalid-feedback mb-2" *ngIf="fc('motivation')?.errors">
+                    Motivation is required.
+                  </div>
+                </div>
+                <div class="col s12 p-0">
+                  <div class="input-field col s6">
+                    <input id="topic" type="text" formControlName="topic" [ngClass]="{'is-invalid':fc('topic')?.errors
+                        && (fc('topic')?.dirty || fc('topic')?.touched) || hasSubmitFailed}">
+                    <label for="topic">Topic</label>
+                    <div class="invalid-feedback mb-2" *ngIf="fc('topic')?.errors">
+                      Topic is required.
+                    </div>
+                  </div>
+                  <div class="input-field col s6">
+                    <select id="grade" formControlName="grade" [ngClass]="{'is-invalid':fc('grade')?.errors
+                               && (fc('grade')?.dirty || fc('grade')?.touched) || hasSubmitFailed}">
+                      <option value="" disabled selected>Choose your grade (required)</option>
+                      <option *ngFor="let grade of [1,2,3,4,5,6]" [value]="grade"> {{grade}}</option>
+                    </select>
+                    <label for="grade">Grade</label>
+                  </div>
+                </div>
+                <div class="col s12 p-0"
+                     *ngFor="let topic of extraTopics?.controls;
+                             let grade of extraGrades?.controls;
+                             let i=index">
+                  <div>
+                    <div formArrayName="extraTopics" class="input-field col s6">
+                      <input type="text"
+                             [formControlName]="i"
+                             [ngClass]="{'is-invalid':fc('extraTopics.' + i)?.errors
+                              && (fc('extraTopics.' + i)?.dirty
+                                || fc('extraTopics.' + i)?.touched)
+                                || hasSubmitFailed}">
+                      <label [htmlFor]="i">Topic</label>
+                      <div class="invalid-feedback mb-2" *ngIf="fc('extraTopics.' + i)?.errors">
+                        Topic is required.
+                      </div>
+                    </div>
+                    <div formArrayName="extraGrades" class="input-field col s6">
+                      <select [formControlName]="i"
+                              [ngClass]="{'is-invalid':fc('extraGrades.' + i)?.errors
+                              && (fc('extraGrades.' + i)?.dirty
+                                || fc('extraGrades.' + i)?.touched)
+                                || hasSubmitFailed}">>
+                        <option value="" disabled selected>Choose your grade (required)</option>
+                        <option *ngFor="let grade of [1,2,3,4,5,6]" [value]="grade"> {{grade}}</option>
+                      </select>
+                      <label [htmlFor]="i">Grade</label>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="waves-effect waves-light btn-small yellow darken-2 black-text"
+                        (click)="addSlot()">
+                  Add topic
+                </button>
+                <button *ngIf="extraTopics.length != 0" type="button"
+                        class="ml-1 waves-effect waves-light btn-small yellow darken-2 black-text"
+                        (click)="deleteSlot()">
+                  Delete topic
+                </button>
+              </div>
+            </div>
+            <div class="row right-align justify-content-center">
+              <div *ngIf="sending"
+                   class="waves-effect waves-light yellow darken-2 btn-large black-text margin-button disabled">
+                <div class="row">
+                  <div class="col">Processing</div>
+                  <div class="col" style="padding-top: 10px;">
+                    <div class="preloader-wrapper small active right-align">
+                      <div class="spinner-layer spinner-green-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                          <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button *ngIf="!sending" type="submit" class="waves-effect waves-light yellow darken-2 btn-large black-text">SUBMIT<i
+                class="material-icons right">send</i></button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+
+</div>

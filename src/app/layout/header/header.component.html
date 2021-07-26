@@ -1,0 +1,65 @@
+<header>
+  <nav class="white" role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" routerLink="home" class="brand-logo">CodeCoach</a>
+
+      <ul class="right hide-on-med-and-down">
+        <li><a class="teal-text" routerLink="/users/{{userId}}/find-coaches" *ngIf="authenticationService.isLoggedIn()"><i class="material-icons right">search</i>Find a coach</a></li>
+
+        <li *ngIf="authenticationService.isLoggedIn()">
+          <a class='dropdown-trigger btn yellow darken-2 black-text min-width' data-target='dropdown-profile-1'>
+            {{fullName}}<i class="material-icons right">face</i></a>
+          <ul id="dropdown-profile-1" class='dropdown-content'>
+            <li><a class="waves-light" routerLink="/users/{{userId}}">My Coachee Profile<i class="material-icons right">person</i></a>
+            </li>
+            <li *ngIf="isCoach"><a class="waves-light" routerLink="/users/{{userId}}/my-coach-profile">My Coach Profile<i class="material-icons right">person</i></a>
+            </li>
+            <li *ngIf="!isCoach"><a class="waves-light" routerLink="/users/{{userId}}/become-coach">Become a Coach<i class="material-icons right">send</i></a>
+            </li>
+            <li><a class="waves-light red lighten-2 white-text" routerLink="/home" (click)="logout()">Log out<i
+              class="material-icons right">power_settings_new</i></a></li>
+          </ul>
+        </li>
+
+        <li *ngIf="!authenticationService.isLoggedIn()">
+          <a class="waves-light yellow darken-2 btn black-text" routerLink="/login">Sign in<i
+            class="material-icons right">person</i></a>
+        </li>
+        <li *ngIf="!authenticationService.isLoggedIn()">
+          <a class="waves-effect waves-light teal lighten-3 btn black-text" routerLink="users/register">Register<i
+            class="material-icons right">person_add</i></a>
+        </li>
+      </ul>
+
+      <ul id="nav-mobile" class="sidenav">
+        <li><a routerLink="home">Home</a></li>
+
+        <li *ngIf="authenticationService.isLoggedIn()">
+          <a class='dropdown-trigger btn yellow darken-2 black-text' data-target='dropdown-profile-2'
+             href="#">{{fullName}}<i class="material-icons right">face</i></a>
+          <ul id="dropdown-profile-2" class='dropdown-content'>
+            <li><a class="waves-light" routerLink="/users/{{userId}}">My Coachee Profile <i class="material-icons right">person</i></a>
+            </li>
+            <li *ngIf="authenticationService.isCoach()"><a class="waves-light" routerLink="/users/{{userId}}/my-coach-profile">My Coach Profile<i class="material-icons right">person</i></a>
+            </li>
+            <li *ngIf="!authenticationService.isCoach()"><a class="waves-light" routerLink="/users/{{userId}}/become-coach">Become a Coach<i class="material-icons right">send</i></a>
+            </li>
+            <li><a class="waves-light red lighten-2 white-text" routerLink="/home" (click)="logout()">Log out<i
+              class="material-icons right">power_settings_new</i></a></li>
+          </ul>
+        </li>
+
+        <li *ngIf="!authenticationService.isLoggedIn()">
+          <a class="waves-light yellow darken-2 btn black-text" routerLink="/login">Sign in<i
+            class="material-icons right">person</i></a>
+        </li>
+        <li *ngIf="!authenticationService.isLoggedIn()">
+          <a class="waves-effect waves-light teal lighten-3 btn black-text" routerLink="users/register">Register<i
+            class="material-icons right">person_add</i></a>
+        </li>
+      </ul>
+
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+</header>
